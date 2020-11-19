@@ -199,3 +199,5 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/intellij+all,java,maven,windows,linux,macos
+#
+jenkins_data/
