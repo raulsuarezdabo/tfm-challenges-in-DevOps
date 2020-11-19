@@ -1,13 +1,24 @@
 package uoc.edu.raulsuarez.devsecop;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.client.TestRestTemplate;
 
-@SpringBootTest
+import static org.assertj.core.api.Assertions.assertThat;
+
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class DevSecOpApplicationTests {
 
+    @Autowired
+    private TestRestTemplate restTemplate;
+
     @Test
-    void contextLoads() {
+    public void bodyTest() {
+        String body = this.restTemplate.getForObject("/", String.class);
+        assertThat(body).contains("POC");
     }
+
+
 
 }
