@@ -1,6 +1,6 @@
 # TFM: Challenges in DevSecOps: DevOps common practices
 
-This is an example that show the most common practices to include in a <b>Secure Jenkins Pipeline</b>.
+This is an example that show the most common practices to include in a <b>Jenkins Pipeline</b>.
 
 ## Setup
 
