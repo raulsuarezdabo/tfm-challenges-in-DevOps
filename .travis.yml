@@ -1,0 +1,42 @@
+language: java
+jdk: openjdk8
+services: docker
+
+env:
+  global:
+    - DOCKER_REPOSITORY="tfm-devsecop"
+cache:
+  directories:
+    - $HOME/google-cloud-sdk
+
+jobs:
+  include:
+    - stage: "dependencies"
+      name: "Download Dependencies"
+      install: mvn install -Dtest.skip=true
+
+    - stage: "test"
+      name: "Testing"
+      script: mvn test
+      after_success:
+        - bash <(curl -s https://codecov.io/bash)
+
+    - stage: "integration-test"
+      name: "Integration Testing"
+      script: mvn test -Dtest=IntegrationTest
+
+    - stage: "publish-rc"
+      name: "Publish Release Candidate on Docker Hub"
+      before_script: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+      script: docker build -t $DOCKER_USERNAME/$DOCKER_REPOSITORY-travisci:$TRAVIS_JOB_NUMBER-RC .
+      after_script: docker push $DOCKER_USERNAME/$DOCKER_REPOSITORY-travisci
+      branches:
+        only: develop
+
+    - stage: "publish-version"
+      name: "Publish Release on Docker Hub"
+      before_script: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+      script: docker build -t $DOCKER_USERNAME/$DOCKER_REPOSITORY-travisci:v$TRAVIS_BUILD_NUMBER -t $DOCKER_USERNAME/$DOCKER_REPOSITORY-travisci:latest .
+      after_script: docker push $DOCKER_USERNAME/$DOCKER_REPOSITORY-travisci
+      branches:
+        only: main
