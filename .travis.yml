@@ -4,7 +4,7 @@ services: docker
 
 env:
   global:
-    - DOCKER_REPOSITORY="tfm-devsecop"
+    - DOCKER_REPOSITORY="tfm-devop"
 cache:
   directories:
     - $HOME/google-cloud-sdk
