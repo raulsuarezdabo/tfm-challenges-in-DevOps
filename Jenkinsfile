@@ -4,7 +4,7 @@ def pipelineContext = [:]
 pipeline {
     agent any
     environment {
-        DOCKER_REPOSITORY = "raulsuarezdabo/tfm-devsecop-jenkins"
+        DOCKER_REPOSITORY = "raulsuarezdabo/tfm-devop-jenkins"
         RC_BRANCH = 'develop'
         RELEASE_BRANCH = 'main'
     }
